@@ -1,0 +1,28 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8762
+spring:
+  application:
+    name: bbb-user-client
+  datasource:
+    username: root
+    password: mimamysql614
+    url: jdbc:mysql://118.25.187.1:3306/biubiubiu
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.jornah.biubiubiu.pojo
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
+
+
+

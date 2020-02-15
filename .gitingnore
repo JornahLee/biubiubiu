@@ -1,0 +1,24 @@
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.idea
+
+# Compiled class file
+*.class
+*/target
+
+# IDEA 
+logs
+.idea
+*.iws
+*.iml
+*.ipr
+log.*
+
+# mvn
+*.mvn
+mvnw*
