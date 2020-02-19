@@ -14,4 +14,9 @@ public class UserClientHystrix implements UserClient {
         return usr;
     }
 
+    @Override
+    public User getByUsername(String username) {
+        return null;
+    }
+
 }

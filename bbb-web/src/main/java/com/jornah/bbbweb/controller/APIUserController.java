@@ -24,7 +24,7 @@ public class APIUserController {
         return userClient.getByUid(uid);
     }
 
-    @RequestMapping("user/login")
+    @RequestMapping("/login")
     public User login(Integer uid) {
         // login 要做的事？
         // 访问login api 的时候，先判断是否有token（已登录），如果已登录，则直接跳转到首页
