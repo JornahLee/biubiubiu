@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class UserClientHystrix implements UserClient {
     @Override
     public User getByUid(Integer uid) {
+        System.out.println("--licg--- getByUid   hystrix  hystrix hystrix: -----");
         User usr = new User();
         usr.setUid(0);
         usr.setUsername("get user error");
@@ -16,6 +17,7 @@ public class UserClientHystrix implements UserClient {
 
     @Override
     public User getByUsername(String username) {
+        System.out.println("--licg--- getByUsername   hystrix  hystrix hystrix: -----");
         return null;
     }
 

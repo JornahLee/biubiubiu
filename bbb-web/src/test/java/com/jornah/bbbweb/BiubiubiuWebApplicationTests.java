@@ -1,13 +1,13 @@
 package com.jornah.bbbweb;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BiubiubiuWebApplicationTests {
+public class BiubiubiuWebApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
     }
 
 }

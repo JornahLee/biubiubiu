@@ -20,4 +20,12 @@ public class UserServiceImpl implements UserService {
     public User getUserByUid(Integer uid) {
         return userMapper.getUserByUid(uid);
     }
+
+    @Override
+    public User getByUsername(String username) {
+        logger.info("param usernmae :"+username);
+        User user = userMapper.getByUsername(username);
+        logger.info(user.getUsername(),user.getPassword());
+        return user;
+    }
 }

@@ -35,7 +35,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<!--        dao-->
+        <!--        dao-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -49,7 +49,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-
+        <!--        dao-->
         <dependency>
             <groupId>com.jornah</groupId>
             <artifactId>bbb-common-base</artifactId>

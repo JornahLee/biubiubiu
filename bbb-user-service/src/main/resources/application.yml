@@ -1,17 +1,25 @@
 eureka:
   client:
     serviceUrl:
+#      defaultZone: http://118.25.187.1:8761/eureka/
       defaultZone: http://localhost:8761/eureka/
 server:
   port: 8762
 spring:
   application:
-    name: bbb-user-client
+    name: bbb-user-service
   datasource:
     username: root
     password: mimamysql614
     url: jdbc:mysql://118.25.187.1:3306/biubiubiu
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
+  mvc:
+    view:
+      prefix: /public/
+      suffix: .html
+      static-path-pattern: /**
+    resources:
+      static-locations: classpath:/**
 
 mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml
@@ -22,7 +30,7 @@ logging:
   level:
     com:
       example:
-        mapper : debug
+        mapper: debug
 
 
 

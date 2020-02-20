@@ -7,7 +7,32 @@ server:
 spring:
   application:
     name: bbb-web
+  datasource:
+    username: root
+    password: mimamysql614
+    url: jdbc:mysql://118.25.187.1:3306/biubiubiu
+    driver-class-name: com.mysql.jdbc.Driver
+  mvc:
+    view:
+      prefix: /public/
+      suffix: .html
+      static-path-pattern: /**
+    resources:
+      static-locations: classpath:/**
 
 feign:
   hystrix:
     enabled: true
+
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.jornah.biubiubiu.pojo
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper: debug
+

@@ -13,5 +13,8 @@
     <select id="getUserByUid" resultType="com.jornah.biubiubiu.pojo.User">
         select * from user where uid = #{uid}
     </select>
+    <select id="getByUsername" resultType="com.jornah.biubiubiu.pojo.User">
+        select * from user where username = #{username}
+    </select>
 
 </mapper>

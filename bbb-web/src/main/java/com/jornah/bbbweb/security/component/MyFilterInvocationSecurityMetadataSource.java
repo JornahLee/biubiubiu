@@ -26,7 +26,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         System.out.println("用户请求的地址是：" + requestUrl);
 
         //如果登录页面就不需要权限
-        if ("/login".equals(requestUrl)) {
+        if ("/user/login".equals(requestUrl)) {
             return null;
         }
         Resource resource = resourceService.getByUrl(requestUrl);

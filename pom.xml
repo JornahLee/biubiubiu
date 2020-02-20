@@ -11,18 +11,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.0.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
     </properties>
     <modules>
         <module>bbb-web</module>
         <module>bbb-micro-service-server</module>
         <module>bbb-user-service</module>
-        <module>bbb-common-base</module>
         <module>bbb-common-base</module>
     </modules>
 

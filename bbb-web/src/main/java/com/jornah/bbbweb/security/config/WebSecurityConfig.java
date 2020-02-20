@@ -4,6 +4,9 @@ import com.jornah.bbbweb.client.UserClient;
 import com.jornah.bbbweb.security.component.MyAccessDecisionManager;
 import com.jornah.bbbweb.security.component.MyAccessDeniedHandler;
 import com.jornah.bbbweb.security.component.MyFilterInvocationSecurityMetadataSource;
+import org.apache.juli.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,7 +36,7 @@ import java.io.PrintWriter;
 @EnableWebSecurity // 注解开启Spring Security的功能
 //WebSecurityConfigurerAdapter:重写它的方法来设置一些web的安全西街
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    private Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -66,19 +69,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(query).authoritiesByUsernameQuery(query);
 
         //3. 注入userDetailsService，需要实现userDetailsService接口
+        System.out.println("--licg---  maybe get userDetailsService : -----");
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    public static void main(String[] args) {
+        String encode = new BCryptPasswordEncoder().encode("admin");
+        System.out.println("--licg---  encode : " + encode + "-----");
     }
 
     //在这里配置哪些页面不需要认证
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/", "/noAuthenticate");
+        web.ignoring().antMatchers("/public/**", "/noAuthenticate");
     }
 
     /**定义安全策略*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()       //配置安全策略
+        http.authorizeRequests()
+                //配置安全策略
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
@@ -90,9 +100,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/hello").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
-                // .loginPage("/user/login")
-                // .usernameParameter("username")
-                // .passwordParameter("password")
+                .loginPage("/user/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .permitAll()
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override

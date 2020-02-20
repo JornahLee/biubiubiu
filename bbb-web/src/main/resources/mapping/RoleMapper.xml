@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jornah.bbbweb.dao.RoleMapper">
+
+<!--    private Integer rid;-->
+<!--    private String roleName;-->
+<!--    private Integer roleNameZH;-->
+    <resultMap id="RoleResultMap" type="com.jornah.biubiubiu.pojo.Role">
+        <id column="rid" jdbcType="INTEGER" property="rid"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_name_zh" jdbcType="VARCHAR" property="roleNameZH"/>
+    </resultMap>
+    <select id="getRolesOfUser" parameterType="String" resultMap="RoleResultMap">
+       SELECT ro.* FROM `user` usr JOIN  user_role ur ON  usr.uid= ur.uid  JOIN role ro  ON ur.rid=ro.rid WHERE usr.username=#{username}
+    </select>
+
+</mapper>

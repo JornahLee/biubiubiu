@@ -39,4 +39,14 @@ public class Resource {
     public void setResName(String resName) {
         this.resName = resName;
     }
+
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", resName='" + resName + '\'' +
+                ", roleList=" + roleList +
+                '}';
+    }
 }
