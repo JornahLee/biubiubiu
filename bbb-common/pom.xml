@@ -9,7 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bbb-common-base</artifactId>
-
+    <artifactId>bbb-common</artifactId>
+    <modules>
+        <module>bbb-common-base</module>
+    </modules>
 
 </project>

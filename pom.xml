@@ -23,7 +23,15 @@
         <module>bbb-micro-service-server</module>
         <module>bbb-user-service</module>
         <module>bbb-common-base</module>
+        <module>bbb-common</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.14</version>
+        </dependency>
+    </dependencies>
 
 
 </project>
