@@ -25,6 +25,11 @@ mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml
   type-aliases-package: com.jornah.biubiubiu.pojo
 
+feign:
+  hystrix:
+    enabled: true
+
+
 #showSql
 logging:
   level:

@@ -9,7 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.jornah</groupId>
     <artifactId>bbb-provider</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>bbb-provider</name>
+    <description>Demo project for Spring Boot</description>
+
     <modules>
         <module>bbb-user-service</module>
     </modules>

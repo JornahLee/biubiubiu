@@ -7,9 +7,14 @@
         <groupId>com.jornah</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>com.jornah</groupId>
     <artifactId>bbb-provider-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>bbb-provider-api</name>
+    <description>Demo project for Spring Boot</description>
+
 
     <modules>
         <module>bbb-provider-user-api</module>

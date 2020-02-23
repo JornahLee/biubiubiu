@@ -31,13 +31,6 @@ public class WebLogAspect {
     public void webLogPointcut() {
     }
 
-    @Pointcut("execution(public * com.jornah.bbbweb.security.*.*.*(..))")
-    public void springSecurityPointcut() {
-    }
-    @Pointcut("execution(public * com.jornah.bbbweb.security.*.*(..))")
-    public void userDetailPointcut() {
-    }
-
     /**
      * 前置通知：
      * 1. 在执行目标方法之前执行，比如请求接口之前的登录验证;
@@ -46,7 +39,7 @@ public class WebLogAspect {
      * @param joinPoint
      * @throws Throwable
      */
-    @Before("webLogPointcut() || springSecurityPointcut() ||userDetailPointcut()")
+    @Before("webLogPointcut()")
     public void doBefore(JoinPoint joinPoint) {
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
@@ -61,7 +54,7 @@ public class WebLogAspect {
      *
      * @throws Throwable
      */
-    @AfterReturning(pointcut = "webLogPointcut()|| springSecurityPointcut()||userDetailPointcut()")
+    @AfterReturning(pointcut = "webLogPointcut()")
     public void doAfterReturning(JoinPoint joinPoint) throws Throwable {
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
@@ -75,7 +68,7 @@ public class WebLogAspect {
      *
      * @param throwable
      */
-    @AfterThrowing(value = "webLogPointcut()|| springSecurityPointcut()||userDetailPointcut()", throwing = "throwable")
+    @AfterThrowing(value = "webLogPointcut()", throwing = "throwable")
     public void doAfterThrowing(Throwable throwable) {
         // 保存异常日志记录
         log.error("抛出异常：{}" + throwable.getMessage());

@@ -1,6 +1,7 @@
 package com.jornah.security.component;
 
-import com.jornah.bbbweb.service.ResouceService;
+import com.jornah.bbbweb.client.ResourceClient;
+import com.jornah.bbbweb.client.UserClient;
 import com.jornah.biubiubiu.pojo.Resource;
 import com.jornah.biubiubiu.pojo.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ import java.util.List;
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
-    private ResouceService resourceService;
+    private UserClient resClient;
+
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         //得到用户的请求地址,控制台输出一下
@@ -29,10 +31,10 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         if ("/user/login".equals(requestUrl)) {
             return null;
         }
-        Resource resource = resourceService.getByUrl(requestUrl);
+        Resource resource = resClient.getByUrl(requestUrl);
 
         //如果没有匹配的url则说明大家都可以访问
-        if(resource == null) {
+        if (resource == null) {
             return SecurityConfig.createList("ROLE_LOGIN");
         }
 

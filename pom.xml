@@ -19,12 +19,13 @@
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
     </properties>
     <modules>
-        <module>bbb-web</module>
+        <module>bbb-provider-api</module>
         <module>bbb-micro-service-server</module>
-        <module>bbb-user-service</module>
+        <module>bbb-provider</module>
         <module>bbb-common</module>
         <module>bbb-provider-api</module>
         <module>bbb-provider</module>
+        <module>bbb-gateway</module>
     </modules>
     <dependencies>
         <dependency>

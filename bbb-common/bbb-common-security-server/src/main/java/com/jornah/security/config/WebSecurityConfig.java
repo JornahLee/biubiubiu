@@ -1,13 +1,12 @@
 package com.jornah.security.config;
 
-import com.jornah.bbbweb.client.UserClient;
-import com.jornah.bbbweb.security.component.MyAccessDecisionManager;
-import com.jornah.bbbweb.security.component.MyAccessDeniedHandler;
-import com.jornah.bbbweb.security.component.MyFilterInvocationSecurityMetadataSource;
+import com.jornah.security.component.jwt.JwtAuthenticationTokenFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -21,6 +20,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -37,25 +38,32 @@ import java.io.PrintWriter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
+    {
+        System.out.println("-----WebSecurityConfig 实例化了---------");
+    }
+
+    static {
+        System.out.println("-----WebSecurityConfig 加载了---------");
+    }
+
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private UserClient userService;
-
     //根据一个url请求，获得访问它所需要的roles权限
     @Autowired
-    MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
+    FilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
 
     //接收一个用户的信息和访问一个url所需要的权限，判断该用户是否可以访问
     @Autowired
-    MyAccessDecisionManager myAccessDecisionManager;
+    AccessDecisionManager myAccessDecisionManager;
 
     //403页面
     @Autowired
-    MyAccessDeniedHandler myAccessDeniedHandler;
+    AccessDeniedHandler myAccessDeniedHandler;
 
-    /**定义认证用户信息获取来源，密码校验规则等*/
+    /**
+     * 定义认证用户信息获取来源，密码校验规则等
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         /**有以下几种形式，使用第3种*/
@@ -80,13 +88,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //在这里配置哪些页面不需要认证
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/public/**", "/noAuthenticate");
+        web.ignoring().antMatchers("/public/**", "/noAuthenticate", "/login");
     }
 
-    /**定义安全策略*/
+    /**
+     * 定义安全策略
+     */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        System.out.println("---------------------------配置了啊 啊啊啊啊啊-");
+        httpSecurity.authorizeRequests()
                 //配置安全策略
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -96,13 +107,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return o;
                     }
                 })
-//                .antMatchers("/hello").hasAuthority("ADMIN")
+
+                // .and()
+                // .sessionManagement()// 基于token，所以不需要session
+                // .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 .and()
                 .formLogin()
-                .loginPage("/user/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .permitAll()
+                .loginPage("/login")
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
@@ -129,19 +141,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         httpServletResponse.setContentType("application/json;charset=utf-8");
                         PrintWriter out = httpServletResponse.getWriter();
 //                        ObjectMapper objectMapper = new ObjectMapper();
-                        String s = "{\"status\":\"success\",\"msg\":"  + "}";
+                        String s = "{\"status\":\"success\",\"msg\":" + "}";
                         out.write(s);
                         out.flush();
                         out.close();
                     }
                 })
+
                 .and()
                 .logout()
                 .permitAll()
+
                 .and()
                 .csrf()
                 .disable()
                 .exceptionHandling()
                 .accessDeniedHandler(myAccessDeniedHandler);
+
+        // 禁用缓存
+        // httpSecurity.headers().cacheControl();
+        // 添加JWT filter
+        // httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+    }
+
+    //用autowired也是一样的吧
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter();
     }
 }
