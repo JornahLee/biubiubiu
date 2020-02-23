@@ -9,11 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bbb-common</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>bbb-provider</artifactId>
     <modules>
-        <module>bbb-common-base</module>
-        <module>bbb-common-security-server</module>
+        <module>bbb-user-service</module>
     </modules>
+
 
 </project>

@@ -22,8 +22,9 @@
         <module>bbb-web</module>
         <module>bbb-micro-service-server</module>
         <module>bbb-user-service</module>
-        <module>bbb-common-base</module>
         <module>bbb-common</module>
+        <module>bbb-provider-api</module>
+        <module>bbb-provider</module>
     </modules>
     <dependencies>
         <dependency>
@@ -31,6 +32,8 @@
             <artifactId>lombok</artifactId>
             <version>1.16.14</version>
         </dependency>
+
+
     </dependencies>
 
 

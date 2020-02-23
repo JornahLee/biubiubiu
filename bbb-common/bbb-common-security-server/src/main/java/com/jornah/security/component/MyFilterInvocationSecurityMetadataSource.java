@@ -1,4 +1,4 @@
-package com.jornah.bbbweb.security.component;
+package com.jornah.security.component;
 
 import com.jornah.bbbweb.service.ResouceService;
 import com.jornah.biubiubiu.pojo.Resource;

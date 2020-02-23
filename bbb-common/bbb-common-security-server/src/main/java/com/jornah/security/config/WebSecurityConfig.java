@@ -1,10 +1,9 @@
-package com.jornah.bbbweb.security.config;
+package com.jornah.security.config;
 
 import com.jornah.bbbweb.client.UserClient;
 import com.jornah.bbbweb.security.component.MyAccessDecisionManager;
 import com.jornah.bbbweb.security.component.MyAccessDeniedHandler;
 import com.jornah.bbbweb.security.component.MyFilterInvocationSecurityMetadataSource;
-import org.apache.juli.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

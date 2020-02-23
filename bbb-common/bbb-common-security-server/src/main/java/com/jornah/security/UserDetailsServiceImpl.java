@@ -1,17 +1,13 @@
-package com.jornah.bbbweb.security;
+package com.jornah.security;
 
-import com.jornah.bbbweb.service.RoleService;
 import com.jornah.bbbweb.client.UserClient;
+import com.jornah.bbbweb.service.RoleService;
 import com.jornah.biubiubiu.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {

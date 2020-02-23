@@ -1,4 +1,4 @@
-package com.jornah.bbbweb.security;
+package com.jornah.security;
 
 import com.jornah.biubiubiu.pojo.Role;
 import com.jornah.biubiubiu.pojo.User;
