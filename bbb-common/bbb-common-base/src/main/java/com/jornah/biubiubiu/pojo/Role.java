@@ -5,6 +5,14 @@ public class Role {
     private String roleName;
     private String roleNameZH;
 
+    public static Role of(String roleName){
+        Role role = new Role();
+        role.setRid(0);
+        role.setRoleName(roleName);
+        role.setRoleNameZH(roleName+"_zh");
+        return role;
+    }
+
     public Integer getRid() {
         return rid;
     }

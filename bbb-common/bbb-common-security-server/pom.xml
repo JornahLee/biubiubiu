@@ -31,6 +31,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <!--        security-->
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional><!-- 表示依赖不会传递，之后依赖该module的项目如需继续使用，则需要再次引入 -->
+        </dependency>
     </dependencies>
 
 </project>

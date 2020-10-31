@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 
 @Component
 public class MyAccessDecisionManager implements AccessDecisionManager {
@@ -21,6 +22,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 
         //迭代器遍历目标url的权限列表
         Iterator<ConfigAttribute> iterator = collection.iterator();
+        boolean allow = true;
         while (iterator.hasNext()) {
             ConfigAttribute ca = iterator.next();
 
@@ -37,6 +39,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
             for (GrantedAuthority authority : authorities) {
                 //TODO 不对呀，意思说只要满足一个权限就可以了？ 万一一个资源需要多个权限呢？
+                // 所以此处可以添加其他处理方式：比如实现需要同时需要多个权限
                 if (authority.getAuthority().equals(needRole)) {
                     return;
                 }

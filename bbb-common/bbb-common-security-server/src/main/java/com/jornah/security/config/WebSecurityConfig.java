@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -67,15 +68,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         /**有以下几种形式，使用第3种*/
-        //1. inMemoryAuthentication 从内存中获取
-        //auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("user1").password(new BCryptPasswordEncoder().encode("123123")).roles("USER");
+        // 1. inMemoryAuthentication 从内存中获取
+        // auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("123").password(new BCryptPasswordEncoder().encode("123")).roles("USER");
 
         //2. jdbcAuthentication从数据库中获取，但是默认是以security提供的表结构
         //usersByUsernameQuery 指定查询用户SQL
         //authoritiesByUsernameQuery 指定查询权限SQL
         //auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(query).authoritiesByUsernameQuery(query);
 
-        //3. 注入userDetailsService，需要实现userDetailsService接口
+        // 3. 注入userDetailsService，需要实现userDetailsService接口
         System.out.println("--licg---  maybe get userDetailsService : -----");
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
@@ -88,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //在这里配置哪些页面不需要认证
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/public/**", "/noAuthenticate", "/login");
+        // web.ignoring().antMatchers("/public/**", "/noAuthenticate", "/login");
     }
 
     /**
@@ -96,8 +97,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        System.out.println("---------------------------配置了啊 啊啊啊啊啊-");
-        httpSecurity.authorizeRequests()
+        // httpSecurity
+        //         .formLogin() // 表单登录。跳转到security默认的登录表单页
+        //         // http.httpBasic() //basic登录
+        //         .and()
+        //         .authorizeRequests() // 对请求授权
+        //         .antMatchers("/noAuth").permitAll() //允许所有人访问/noAuth
+        //         .anyRequest() // 任何请求
+        //         .authenticated()// 需要身份认证
+        // ;
+
+
+
+        httpSecurity
+                .authorizeRequests()
+                // .antMatchers("/login","loginPage").permitAll()
+                // .anyRequest().authenticated()
+                .antMatchers("/public/**").permitAll()
+                .anyRequest().authenticated()
                 //配置安全策略
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -111,42 +128,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .and()
                 // .sessionManagement()// 基于token，所以不需要session
                 // .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .failureHandler(new AuthenticationFailureHandler() {
-                    @Override
-                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                        httpServletResponse.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = httpServletResponse.getWriter();
-                        StringBuffer sb = new StringBuffer();
-                        sb.append("{\"status\":\"error\",\"msg\":\"");
-                        if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
-                            sb.append("用户名或密码输入错误，登录失败!");
-                        } else if (e instanceof DisabledException) {
-                            sb.append("账户被禁用，登录失败，请联系管理员!");
-                        } else {
-                            sb.append("登录失败!");
-                        }
-                        sb.append("\"}");
-                        out.write(sb.toString());
-                        out.flush();
-                        out.close();
+                .loginProcessingUrl("/process")
+
+                .failureHandler((httpServletRequest, httpServletResponse, e) -> {
+                    httpServletResponse.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = httpServletResponse.getWriter();
+                    StringBuffer sb = new StringBuffer();
+                    sb.append("{\"status\":\"error\",\"msg\":\"");
+                    if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
+                        sb.append("用户名或密码输入错误，登录失败!");
+                    } else if (e instanceof DisabledException) {
+                        sb.append("账户被禁用，登录失败，请联系管理员!");
+                    } else {
+                        sb.append("登录失败!");
                     }
+                    sb.append("\"}");
+                    out.write(sb.toString());
+                    out.flush();
+                    out.close();
                 })
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                        httpServletResponse.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = httpServletResponse.getWriter();
-//                        ObjectMapper objectMapper = new ObjectMapper();
-                        String s = "{\"status\":\"success\",\"msg\":" + "}";
-                        out.write(s);
-                        out.flush();
-                        out.close();
-                    }
-                })
+                .successForwardUrl("/hello")
+//                 .successHandler((httpServletRequest, httpServletResponse, authentication) -> {
+//                     httpServletResponse.setContentType("application/json;charset=utf-8");
+//                     PrintWriter out = httpServletResponse.getWriter();
+// //                        ObjectMapper objectMapper = new ObjectMapper();
+//                     String s = "{\"status\":\"success\",\"msg\":" + "}";
+//                     out.write(s);
+//                     out.flush();
+//                     out.close();
+//                 })
 
                 .and()
                 .logout()
