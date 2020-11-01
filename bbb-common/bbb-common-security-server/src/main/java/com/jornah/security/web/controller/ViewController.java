@@ -1,6 +1,11 @@
 package com.jornah.security.web.controller;
 
+import com.jornah.bbbweb.client.UserClient;
+import com.jornah.biubiubiu.entity.User;
+import com.netflix.discovery.converters.Auto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,10 +13,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ViewController {
+
+    @Autowired
+    UserClient userClient;
     @RequestMapping("/")
     @ResponseBody
     public String index() {
         return "this is index page";
+    }
+
+    @RequestMapping("/testFeign/{id}")
+    @ResponseBody
+    public User testFeign(@PathVariable long id) {
+        User user = userClient.getById(id);
+        return user;
     }
 
 

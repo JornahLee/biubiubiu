@@ -4,17 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jornah.bbbuserservice.dao.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.jornah.biubiubiu.pojo.User">
-        <result column="uid" jdbcType="INTEGER" property="uid"/>
+    <resultMap id="BaseResultMap" type="com.jornah.biubiubiu.entity.User">
+        <result column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <collection property="roles" ofType="com.jornah.biubiubiu.entity.Role">
+            <id property="id" column="id"/>
+            <result property="roleName" column="role_name"/>
+            <result property="roleNameZH" column="role_name_zh"/>
+        </collection>
     </resultMap>
 
-    <select id="getUserByUid" resultType="com.jornah.biubiubiu.pojo.User">
-        select * from user where uid = #{uid}
+    <select id="getById" resultType="com.jornah.biubiubiu.entity.User">
+        select * from user where id = #{uid}
     </select>
-    <select id="getByUsername" resultType="com.jornah.biubiubiu.pojo.User">
+    <select id="getByUsername" resultType="com.jornah.biubiubiu.entity.User">
         select * from user where username = #{username}
+    </select>
+
+    <select id="getUserWithRole" resultType="com.jornah.biubiubiu.entity.User">
+        SELECT ro.* FROM `user` usr JOIN  user_role ur ON  usr.id= ur.id  JOIN role ro  ON ur.id=ro.id WHERE usr.username=#{username}
     </select>
 
 </mapper>

@@ -5,9 +5,12 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 server:
   port: 8801
+
 spring:
   application:
     name: bbb-common-security-server
+  main:
+    allow-bean-definition-overriding: true
   mvc:
     view:
       prefix: /public/

@@ -27,6 +27,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("-----WebSecurityConfig 加载了---------");
     }
 
-    @Autowired
+    @Resource
     private UserDetailsService userDetailsService;
 
     //根据一个url请求，获得访问它所需要的roles权限

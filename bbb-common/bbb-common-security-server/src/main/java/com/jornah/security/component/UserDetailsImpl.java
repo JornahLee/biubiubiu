@@ -1,7 +1,7 @@
 package com.jornah.security.component;
 
-import com.jornah.biubiubiu.pojo.Role;
-import com.jornah.biubiubiu.pojo.User;
+import com.jornah.biubiubiu.entity.Role;
+import com.jornah.biubiubiu.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

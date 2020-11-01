@@ -2,23 +2,25 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jornah.bbbweb.dao.ResourceMapper">
+<mapper namespace="com.jornah.bbbuserservice.dao.ResourceMapper">
 
-<!--    private int id;-->
-<!--    private String url;-->
-<!--    private String resName;-->
-<!--    private List<Role> roleList;-->
-    <resultMap id="ResourceResultMap" type="com.jornah.biubiubiu.pojo.Resource">
-        <id column="res_id" jdbcType="INTEGER" property="id"/>
+    <resultMap id="ResourceResultMap" type="com.jornah.biubiubiu.entity.Resource">
+        <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="res_name" jdbcType="VARCHAR" property="resName"/>
-        <collection property="roleList" ofType="com.jornah.biubiubiu.pojo.Role">
-            <id property="rid" column="rid"/>
+        <collection property="roles" ofType="com.jornah.biubiubiu.entity.Role">
+            <id property="id" column="id"/>
             <result property="roleName" column="role_name"/>
+            <result property="roleNameZH" column="role_name_zh"/>
         </collection>
     </resultMap>
+
     <select id="getByUrl" parameterType="String" resultMap="ResourceResultMap">
-       SELECT * FROM role ro JOIN role_resource  rr ON ro.rid=rr.role_id JOIN resource res ON rr.res_id=res.res_id WHERE res.url=#{url};
+       SELECT * FROM role ro JOIN role_resource  rr ON ro.id=rr.role_id JOIN resource res ON rr.resource_id=res.id WHERE res.url=#{url};
+    </select>
+
+    <select id="getRolesByUrl" parameterType="String" resultMap="ResourceResultMap">
+        SELECT ro.id,ro.role_name,ro.role_name_zh FROM role ro JOIN role_resource  rr ON ro.id=rr.role_id JOIN resource res ON rr.resource_id=res.id WHERE res.url=#{url};
     </select>
 
 </mapper>

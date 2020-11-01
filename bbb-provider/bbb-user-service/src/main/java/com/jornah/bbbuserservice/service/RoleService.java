@@ -1,6 +1,6 @@
 package com.jornah.bbbuserservice.service;
 
-import com.jornah.biubiubiu.pojo.Role;
+import com.jornah.biubiubiu.entity.Role;
 
 import java.util.List;
 

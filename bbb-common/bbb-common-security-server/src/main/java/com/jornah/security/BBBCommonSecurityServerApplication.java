@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @EnableEurekaClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.jornah.bbbweb.client")
 @SpringBootApplication
 @ComponentScan(value = {"com.jornah.bbbweb.client", "com.jornah.security"})
 public class BBBCommonSecurityServerApplication {
